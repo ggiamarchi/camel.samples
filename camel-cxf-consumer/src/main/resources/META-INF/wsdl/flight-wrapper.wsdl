@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<wsdl:definitions
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:f="http://www.github.com/camel/samples/cxf/flight"
+	xmlns:types="http://www.github.com/camel/samples/cxf/flight/types"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.github.com/camel/samples/cxf/flight">
+
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.github.com/camel/samples/cxf/flight/types">
+			<xsd:include schemaLocation="../xsd/flight.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="findFlight">
+		<wsdl:part name="in" element="types:findFlight" />
+	</wsdl:message>
+	<wsdl:message name="findFlightResponse">
+		<wsdl:part name="out" element="types:findFlightResponse" />
+	</wsdl:message>
+	<wsdl:message name="findFlightFault">
+		<wsdl:part name="fault" element="types:findFlightFault" />
+	</wsdl:message>
+
+	<wsdl:portType name="flightEndPoint">
+		<wsdl:operation name="findFlight">
+			<wsdl:input message="f:findFlight"/>
+			<wsdl:output message="f:findFlightResponse"/>
+			<wsdl:fault name="fault" message="f:findFlightFault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="flightServiceBinding" type="f:flightEndPoint">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="findFlight">
+			<wsdl:input>
+				<soap:body parts="in" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body parts="out" use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault name="fault" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="flightService">
+		<wsdl:port name="flightServicePort" binding="f:flightServiceBinding" >
+			<soap:address location="http://localhost:8080/services/flight" />
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>

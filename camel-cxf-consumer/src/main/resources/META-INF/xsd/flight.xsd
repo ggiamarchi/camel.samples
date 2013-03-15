@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.github.com/camel/samples/cxf/flight/types"
+	xmlns:types="http://www.github.com/camel/samples/cxf/flight/types" 
+	elementFormDefault="qualified">
+
+	<element name="findFlight">
+		<complexType>
+			<sequence>
+				<element name="from" type="string" />
+				<element name="to" type="string" />
+				<element name="date" type="date" minOccurs="0"/>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="findFlightResponse">
+		<complexType>
+			<sequence>
+				<element name="flight" type="types:Flight" minOccurs="0" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="findFlightFault" type="string" />
+	
+	<complexType name="Flight">
+		<sequence>
+			<element name="from" type="string" />
+			<element name="to" type="string" />
+			<element name="departureDate" type="dateTime" />
+			<element name="arrivalDate" type="dateTime" />
+			<element name="price" type="double" />
+		</sequence>
+	</complexType>
+
+</schema>

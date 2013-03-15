@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cxf="http://camel.apache.org/schema/cxf"
+       xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context.xsd
+			http://camel.apache.org/schema/spring
+			http://camel.apache.org/schema/spring/camel-spring.xsd
+			http://camel.apache.org/schema/cxf
+			http://camel.apache.org/schema/cxf/camel-cxf.xsd">
+
+	<context:component-scan base-package="com.github.camel.samples.cxf.flight" />
+
+  	<import resource="classpath:META-INF/cxf/cxf.xml" />
+
+	<cxf:cxfEndpoint id="fligthEndpointWrapped"
+					 address="/flight"
+					 serviceClass="com.github.camel.samples.cxf.flight.service.nowrapper.FlightEndPoint" />
+
+	<cxf:cxfEndpoint id="fligthEndpointUnWrapped"
+					 address="/flightw"
+					 serviceClass="com.github.camel.samples.cxf.flight.service.wrapper.FlightEndPoint" />
+
+    <bean id="routeBuilderService" class="com.github.camel.samples.cxf.flight.routes.Routes" />
+
+	<camelContext streamCache="true" xmlns="http://camel.apache.org/schema/spring">
+    	<routeBuilder ref="routeBuilderService" />
+  	</camelContext>
+
+</beans>
